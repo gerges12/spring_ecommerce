@@ -34,6 +34,12 @@ public class productController {
 	       
 	        return productservice.getProductBySearch(search) ;
 	    }
+       
+       
+       @GetMapping("/searchByCategory")
+       public List<Product>  searchbycategory(@RequestParam String CategoryName) {
+       	return productservice.searchbycategory(CategoryName) ;
+       }
 	
 	
 	

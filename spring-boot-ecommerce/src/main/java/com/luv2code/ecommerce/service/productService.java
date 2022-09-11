@@ -31,6 +31,8 @@ public class productService {
 	@Autowired
 	ProductCategoryRepository  Productcategoryrepository  ;
 	
+	
+	
 	@Autowired
 	AuthService authService ;
 	
@@ -135,6 +137,16 @@ public class productService {
 	public List<Product> getProductBySearch(String search) {
 		
 		return  productRepository.findByNameContaining(search )  ;
+	}
+
+
+	public List<Product> searchbycategory(String categoryName) {
+		
+		ProductCategory  productcategory =	Productcategoryrepository.findByCategoryName(categoryName)	
+				.orElseThrow(() -> new productCategoryNotFoundException("this category not found "))  ;
+		
+		// TODO Auto-generated method stub
+		return  productRepository.findByCategory(productcategory )  ;
 	}
 
 }

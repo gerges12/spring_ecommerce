@@ -27,6 +27,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByName(String productname);
     
     
+    List<Product>  findByCategory(ProductCategory productCategory)  ;
+    
+    
     
     @Query("SELECT u FROM Product u WHERE u.views >= 5")
     List<Product> findRecommendedProduct();
