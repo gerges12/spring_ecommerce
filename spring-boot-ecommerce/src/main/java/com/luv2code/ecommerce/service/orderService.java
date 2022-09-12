@@ -48,6 +48,11 @@ public class orderService {
         	Product product = productrepository.findById(i.getProduct_id())
         		         .orElseThrow(  
       () -> new ProductNotFoundException("product id not found " + i.getProduct_id()) ) ;
+        	
+        	if (product.getUnitsInStock()==0) {
+        		throw new ProductNotFoundException("stock have not any " + product.getName() + "s" ) ;
+        	}
+        	
         	Orderproduct.setQuantity(i.getQuantity());
 
 
