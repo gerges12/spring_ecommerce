@@ -68,9 +68,13 @@ public class orderService {
 		order.setOrderProduct(allorder);
 		order.setPrice(price)   ;
 	
-	
-	
+		int Total_of_order = authService.getCurrentUser().getTotal_of_orders() ;
+		Total_of_order+= price ;
+		authService.getCurrentUser().setTotal_of_orders(Total_of_order);
+		
 		order = orderRepository.save(order)  ;
+		
+		
 		for (OrderProduct o :allorder) {
         	o.setOrder(order);
         	

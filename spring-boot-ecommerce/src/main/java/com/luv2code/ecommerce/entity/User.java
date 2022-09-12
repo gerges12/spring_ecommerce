@@ -36,6 +36,8 @@ public class User {
 
     private boolean enabled;
     
+    private int total_of_orders ;
+    
     
     @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)
 	 private List<Comment> comments = new ArrayList<Comment>();

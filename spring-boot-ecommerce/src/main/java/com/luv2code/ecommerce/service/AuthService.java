@@ -71,6 +71,7 @@ public class AuthService {
 	        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 	        user.setCreated(new Date());
 	        user.setEnabled(false);
+	        user.setTotal_of_orders(0);
 	        userrepository.save(user);
 	        
 	        
@@ -120,6 +121,20 @@ public class AuthService {
 	        return userrepository.findByUsername(principal.getUsername())
 	                .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
 	    }
+
+	public boolean if_user_vip() {
+		User user  = getCurrentUser()  ;
+		
+		if (user.getTotal_of_orders() >= 1000)
+		{
+			return true;
+
+		}
+		
+		else {
+			return false  ;
+		}
+	}
 	
 	
 	
