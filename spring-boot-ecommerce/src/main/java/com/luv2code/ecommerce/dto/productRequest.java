@@ -10,6 +10,7 @@ public class productRequest {
 	
 	
    
+    private Long id;
 
     private String sku;
 

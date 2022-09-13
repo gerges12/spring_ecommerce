@@ -149,4 +149,20 @@ public class productService {
 		return  productRepository.findByCategory(productcategory )  ;
 	}
 
+
+	public Product updateProduct(productRequest productrequest) {
+		
+		Product product  = productRepository.findById(productrequest.getId()) 
+		.orElseThrow(() -> new ProductNotFoundException("this product not found ")) ;
+		
+		
+		product.setName(productrequest.getName());
+		product.setUnitPrice(productrequest.getUnitPrice());
+		product.setDescription(productrequest.getDescription())  ;
+		product.setUnitsInStock(productrequest.getUnitsInStock())  ;
+
+		// TODO Auto-generated method stub
+		return productRepository.save(product)  ;
+	}
+
 }
