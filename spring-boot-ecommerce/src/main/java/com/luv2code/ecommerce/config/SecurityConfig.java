@@ -66,6 +66,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers("/vote/**")
                 .permitAll()
+                .antMatchers("/productCategory/**")
+                .permitAll()
                 
                 .anyRequest()
                 .authenticated();
