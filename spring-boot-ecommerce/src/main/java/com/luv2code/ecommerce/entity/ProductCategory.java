@@ -27,6 +27,11 @@ public class ProductCategory {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private Set<Product> products;
+    
+    @Override
+    public String toString() {
+        return "id :" + this.id + " categoryName: " + this.categoryName ;
+    }
 
 }
 

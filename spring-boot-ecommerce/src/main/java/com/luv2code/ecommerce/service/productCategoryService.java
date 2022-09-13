@@ -33,6 +33,9 @@ public class productCategoryService {
 		
 		ProductCategory  productcategory  =  new ProductCategory()  ;
 		productcategory.setCategoryName(productCategoryrequest.getCategoryName());
+		
+		
+		
 		return productcategoryrepository.save(productcategory)  ;
 		
 	}
