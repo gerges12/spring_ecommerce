@@ -36,6 +36,8 @@ public class User {
 
     private boolean enabled;
     
+    private boolean is_sponser ;
+    
     private int total_of_orders ;
     
     

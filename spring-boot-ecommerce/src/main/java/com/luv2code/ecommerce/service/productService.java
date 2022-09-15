@@ -20,6 +20,7 @@ import com.luv2code.ecommerce.entity.ProductCategory;
 import com.luv2code.ecommerce.entity.User;
 import com.luv2code.ecommerce.exceptions.ProductNotFoundException;
 import com.luv2code.ecommerce.exceptions.productCategoryNotFoundException;
+import com.luv2code.ecommerce.exceptions.PermissionException;
 import com.luv2code.ecommerce.exceptions.ProductAlreadyExistException;
 
 @Service
@@ -40,25 +41,26 @@ public class productService {
 	CommentRepository commentRepository ;
 	
 	public List<Product> getallproduct(){
-		
 		return productRepository.findAll()  ;
+		
+		
 	}
 	
 	
-	public void deleteByiId(Long orderId) {
-	if( ! productRepository.existsById(orderId)) {
-		throw new ProductNotFoundException("product id not found " + orderId.toString() )  ;
+	public void deleteByiId(Long productId) {
+	if( ! productRepository.existsById(productId)) {
+		throw new ProductNotFoundException("product id not found " + productId.toString() )  ;
 	}	
-		productRepository.deleteById(orderId)  ;
+		productRepository.deleteById(productId)  ;
 
 	}
 
 
-	public Product findById(Long orderId) {
+	public Product findById(Long productId) {
 		
 				
-		Product product = productRepository.findById(orderId)
-                .orElseThrow(  () -> new ProductNotFoundException("product id not found " + orderId.toString()) ) ;
+		Product product = productRepository.findById(productId)
+                .orElseThrow(  () -> new ProductNotFoundException("product id not found " + productId.toString()) ) ;
          
 	   int v = product.getViews();
 
@@ -73,6 +75,13 @@ public class productService {
 
 
 	public Product save(productRequest productrequest) {
+		
+		
+     if (!authService.is_admin()) {
+    	 throw new PermissionException("you arenot allowed to you this permit")  ;
+    	 
+     }
+		
 		Product product = new Product()  ;
 		
 		ProductCategory  productcategory =	Productcategoryrepository.findByCategoryName(productrequest.getCategoryName())	

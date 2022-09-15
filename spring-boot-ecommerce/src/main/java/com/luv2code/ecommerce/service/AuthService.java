@@ -5,6 +5,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +20,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.luv2code.ecommerce.dao.RoleRepository;
 import com.luv2code.ecommerce.dao.UserRepository;
 import com.luv2code.ecommerce.dao.VerificationTokenRepository;
 import com.luv2code.ecommerce.dto.AuthenticationResponse;
 import com.luv2code.ecommerce.dto.LoginRequest;
 import com.luv2code.ecommerce.dto.RegisterRequest;
+import com.luv2code.ecommerce.entity.Role;
 import com.luv2code.ecommerce.entity.User;
 import com.luv2code.ecommerce.entity.VerificationToken ;
 import com.luv2code.ecommerce.exceptions.EmailAlreadyExistException;
@@ -41,6 +46,9 @@ public class AuthService {
 	
 	@Autowired
     JwtProvider  jwtProvider  ;
+	
+	@Autowired
+	RoleRepository roleRepository  ;
 	
 	@Autowired
     PasswordEncoder passwordEncoder;
@@ -64,6 +72,9 @@ public class AuthService {
 		{
 		 throw new EmailAlreadyExistException("username " +registerRequest.getUsername() + " is already exist ") ;
 		}
+		
+		   
+		   
 
 		 User user = new User();
 	        user.setUsername(registerRequest.getUsername());
@@ -72,12 +83,13 @@ public class AuthService {
 	        user.setCreated(new Date());
 	        user.setEnabled(false);
 	        user.setTotal_of_orders(0);
+	        user.setRoles(null);
 	        userrepository.save(user);
 	        
 	        
 	        
 	        
-	        String token = generateVerificationToken(user);
+	      //  String token = generateVerificationToken(user);
 		
 		
 	}
@@ -136,6 +148,29 @@ public class AuthService {
 		}
 	}
 	
+	
+	public boolean is_admin() {
+		Set<Role> roles  = getCurrentUser().getRoles()  ;
+		
+		
+		boolean b = false ;
+		for (Role role : roles) {
+			
+			if ("ADMIN".equals(role.getName()))  
+			{ 
+				b = true ;
+				break ;
+			}
+			
+			 
+
+		}
+		
+		return b ;
+		
+		
+		
+	}
 	
 	
 	
