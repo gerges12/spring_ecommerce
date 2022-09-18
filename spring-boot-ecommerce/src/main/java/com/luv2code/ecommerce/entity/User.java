@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,18 @@ public class User {
     private boolean is_sponser ;
     
     private int total_of_orders ;
+    
+    @OneToMany(mappedBy = "userCreditor")
+	 private List<SupportOrder> order_supporteds ;
+
+  //  private SupportOrder order_supported;  
+    
+    @OneToMany(mappedBy = "userdebtor")
+	 private List<SupportOrder> order_debats ;
+
+    //private SupportOrder order_debat;  
+    
+  
     
     
     @OneToMany(mappedBy = "user" , fetch = FetchType.LAZY)

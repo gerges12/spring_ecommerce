@@ -76,8 +76,12 @@ public class Product     {
     
 	@JsonIgnore
     @OneToMany(mappedBy = "product")
-	 private List<OrderProduct> orderProduct ;
+	 private List<OrderProduct> orderProduct ;  
     
+	
+	@JsonIgnore
+    @OneToMany(mappedBy = "product")
+	 private List<Ordersupportofproduct> ordersupportofproduct ;
     
     @JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)  

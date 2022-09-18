@@ -73,7 +73,7 @@ public class AuthService {
 		 throw new EmailAlreadyExistException("username " +registerRequest.getUsername() + " is already exist ") ;
 		}
 		
-		   
+		   System.out.print("ggggggggggggg  " + registerRequest.isSponser());
 		   
 
 		 User user = new User();
@@ -81,6 +81,7 @@ public class AuthService {
 	        user.setEmail(registerRequest.getEmail());
 	        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 	        user.setCreated(new Date());
+	        user.set_sponser(registerRequest.isSponser());
 	        user.setEnabled(false);
 	        user.setTotal_of_orders(0);
 	        user.setRoles(null);
