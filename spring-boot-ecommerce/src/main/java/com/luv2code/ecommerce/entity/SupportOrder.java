@@ -39,7 +39,7 @@ public class SupportOrder {
  
 	  @Enumerated(EnumType.STRING)
 	  @Column(name = "status_of_request")
-	  private statusofrequest status_of_request ;
+	  private Statusofrequest statusofrequest ;
 	  
 	 
 	

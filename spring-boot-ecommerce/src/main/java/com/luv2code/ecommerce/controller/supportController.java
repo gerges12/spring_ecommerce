@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.luv2code.ecommerce.dto.CommentRequest;
 import com.luv2code.ecommerce.dto.FinancialSupportRequestdto;
+import com.luv2code.ecommerce.dto.reply_for_support_request;
 import com.luv2code.ecommerce.entity.Product;
 import com.luv2code.ecommerce.entity.SupportOrder;
+import com.luv2code.ecommerce.entity.Statusofrequest;
 import com.luv2code.ecommerce.service.SupportService;
 
 @RestController
@@ -52,10 +54,27 @@ public class supportController {
 	    	return supportService.support_requests() ;
 	    } 
 	  
+	  @GetMapping("/your_support_request/{status}")
+	    public List<SupportOrder>  get_status_of_support_request(@PathVariable Statusofrequest status) {
+	    	return supportService.status_of_support_request(status) ;
+	    } 
+	  
 	  @GetMapping("/requests_for_reply")
 	    public List<SupportOrder>  get_requests_for_reply() {
 	    	return supportService.requests_for_reply() ;
 	    } 
+	  
+	  @PostMapping("/reply_for_support_request")
+	    public  ResponseEntity<String>  reply_for_support_request(@RequestBody reply_for_support_request   reply) {
+		  
+			
+			supportService.reply_for_support_request(reply)   ;
+			String message =  supportService.statusforreply ;
+
+
+	        return new ResponseEntity<>(message ,HttpStatus.ACCEPTED);
+	    } 
+	
 	
 	
 	

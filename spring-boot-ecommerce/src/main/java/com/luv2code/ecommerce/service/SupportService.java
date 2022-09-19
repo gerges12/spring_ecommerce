@@ -15,13 +15,14 @@ import com.luv2code.ecommerce.dao.SupportOrderRepository;
 import com.luv2code.ecommerce.dao.UserRepository;
 import com.luv2code.ecommerce.dto.FinancialSupportRequestdto;
 import com.luv2code.ecommerce.dto.orequest;
+import com.luv2code.ecommerce.dto.reply_for_support_request;
 import com.luv2code.ecommerce.entity.OrderProduct;
 import com.luv2code.ecommerce.entity.Ordersupportofproduct;
 import com.luv2code.ecommerce.entity.Product;
 import com.luv2code.ecommerce.entity.ProductCategory;
 import com.luv2code.ecommerce.entity.SupportOrder;
 import com.luv2code.ecommerce.entity.User;
-import com.luv2code.ecommerce.entity.statusofrequest;
+import com.luv2code.ecommerce.entity.Statusofrequest;
 import com.luv2code.ecommerce.exceptions.PermissionException;
 import com.luv2code.ecommerce.exceptions.ProductNotFoundException;
 
@@ -53,6 +54,9 @@ public class SupportService {
 
 	public String statusmessage;
 
+
+	public String statusforreply;
+
 	public SupportOrder save(FinancialSupportRequestdto supportRequestdto) {
 
 		SupportOrder supportOrder  = new SupportOrder()  ;
@@ -65,8 +69,13 @@ public class SupportService {
 	             throw new PermissionException("this user is not sponser")  ;
 	
            }
+		     
+		     else if ( user_Creditor == authService.getCurrentUser()  ) {
+		           
+	             throw new PermissionException(" you can not send request to yourself")  ;
 	
-                 	 System.out.print("asda" + supportRequestdto.getOrderrequest());
+           }
+	
 
 		
 		  int total_of_amount = 0 ;
@@ -95,7 +104,7 @@ public class SupportService {
 		  
 			 supportOrder.setUserdebtor(authService.getCurrentUser());
 			 supportOrder.setUserCreditor(user_Creditor)  ;
-			 supportOrder.setStatus_of_request(statusofrequest.PENDING);
+			 supportOrder.setStatusofrequest(Statusofrequest.PENDING);
 			 
 			 supportOrder.setTotal_of_amount(total_of_amount);
 			 supportOrder.setOrdersupportofproduct(allOrdersupportofproduct);
@@ -154,7 +163,36 @@ public class SupportService {
 		List<SupportOrder> SupportOrders  = supportOrderRepository.findByuserCreditor(authService.getCurrentUser())  ;
 		return SupportOrders;
 	}
-	
+
+	public void reply_for_support_request(reply_for_support_request   reply) {
+		
+		SupportOrder supportOrder =	supportOrderRepository.findById(reply.getSupport_order_id()).orElseThrow(  
+			      () -> new ProductNotFoundException("supportOrder not found ")) ;
+		 ;
+		 
+		 if (supportOrder.getUserCreditor() != authService.getCurrentUser())
+		 {
+			throw new  ProductNotFoundException(" you are not the sponser for this support order")  ;
+ 
+		 }
+		
+		 supportOrder.setStatusofrequest(reply.getStatus_of_reply());
+		 statusforreply="you " + supportOrder.getStatusofrequest() + " successfully"  ;
+
+		 
+		 supportOrder = supportOrderRepository.save(supportOrder)  ;
+		 
+	}
+
+	public List<SupportOrder> status_of_support_request(Statusofrequest statusofrequest) {
+
+		List<SupportOrder> SupportOrders  = supportOrderRepository.findByuserdebtorAndStatusofrequest(authService.getCurrentUser() , statusofrequest )  ;
+		return SupportOrders;
+		
+		
+	}
+
+
 	
 	
 	
