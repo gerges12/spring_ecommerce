@@ -6,6 +6,8 @@ import lombok.Data;
 
 @Data
 public class reply_for_support_request {
+	
+//	SupportRequestDTO{}
 
     private Statusofrequest status_of_reply ;
 
